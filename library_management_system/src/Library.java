@@ -1,116 +1,112 @@
 import java.util.*;
 import java.lang.*;
 
-class Library{
-    HashMap<Integer,Book> list = new HashMap<>();
+class Library {
+    HashMap<Integer, Book> list = new HashMap<>();
     private int nextId = 1;
 
-    public void addBooks(String title, String author){
-        Book book = new Book(nextId,title,author);
-        list.put(nextId,book);
-        System.out.println("Book added Successfully: " + book.getBookId());
+    private void printMessage(String msg) {
+        System.out.println("\n" + msg);
+    }
+
+    public void addBooks(String title, String author) {
+        Book book = new Book(nextId, title, author);
+        list.put(nextId, book);
+        printMessage("Book added Successfully:");
+        System.out.println(book);
         nextId++;
     }
 
-    public void viewAllBooks(){
-
-        if(list.isEmpty()){
-            System.out.println("No books in library");
+    public void viewAllBooks() {
+        if (list.isEmpty()) {
+            printMessage("No books in library");
             return;
         }
-
-        for(Book b:list.values()){
+        System.out.println();
+        for (Book b : list.values()) {
             System.out.println(b);
         }
     }
 
-    public Book searchBookById(int id){
-        if(id<=0){
-            System.out.println("Id cannot be 0 or negative");
+    public Book searchBookById(int id) {
+        if (id <= 0) {
+            printMessage("Id cannot be 0 or negative");
             return null;
         }
-
-        Book found = list.get(id);
-
-
-        return found;
-
+        return list.get(id);
     }
 
-    public Book searchBookByTitle(String title){
-        for(Book b:list.values()){
-            if(b.getTitle().equalsIgnoreCase(title)){
+    public Book searchBookByTitle(String title) {
+        for (Book b : list.values()) {
+            if (b.getTitle().equalsIgnoreCase(title)) {
                 return b;
             }
         }
         return null;
     }
 
-    public boolean issueBook(int id){
-        if(id<=0){
-            System.out.println("Id cannot be negative");
+    public boolean issueBook(int id) {
+        if (id <= 0) {
+            printMessage("Id cannot be negative");
             return false;
         }
 
-        Book b = list.get(id);
+        Book issuedBook = list.get(id);
 
-        if(b == null){
-            System.out.println("Book Not Found");
+        if (issuedBook == null) {
+            printMessage("Book Not Found");
             return false;
         }
 
-        if(!b.getAvailability()){
-            System.out.println("Book is already issued");
+        if (!issuedBook.getAvailability()) {
+            printMessage("Book is already issued");
             return false;
         }
 
-        b.setAvailability(false);
-        System.out.println("Book Issued Successfully");
+        issuedBook.setAvailability(false);
+        printMessage("Book Issued Successfully:");
+        System.out.println(issuedBook);
         return true;
-
     }
 
     public boolean returnBook(int id) {
         if (id <= 0) {
-            System.out.println("Id cannot be negative");
+            printMessage("Id cannot be negative");
             return false;
         }
 
-        Book b = list.get(id);
+        Book returnedBook = list.get(id);
 
-        if(b==null){
-            System.out.println("Book not found");
+        if (returnedBook == null) {
+            printMessage("Book not found");
             return false;
         }
 
-        if(b.getAvailability()){
-            System.out.println("The book is not issued");
+        if (returnedBook.getAvailability()) {
+            printMessage("The book is not issued");
             return false;
         }
 
-        b.setAvailability(true);
-        System.out.println("Book returned successfully");
+        returnedBook.setAvailability(true);
+        printMessage("Book returned successfully:");
+        System.out.println(returnedBook);
         return true;
     }
 
-    public boolean removeBook(int id){
-        if(id<=0){
-            System.out.println("Id cannot be negative");
+    public boolean removeBook(int id) {
+        if (id <= 0) {
+            printMessage("Id cannot be negative");
             return false;
         }
 
-        if(!list.containsKey(id)){
-            System.out.println("Book not found");
+        if (!list.containsKey(id)) {
+            printMessage("Book not found");
             return false;
         }
 
-        list.remove(id);
-        System.out.println("Book remove Successfully");
+        Book removedBook = list.remove(id);
+        printMessage("Book removed Successfully:");
+        System.out.println(removedBook);
         return true;
     }
-
-
-
-
-
 }
